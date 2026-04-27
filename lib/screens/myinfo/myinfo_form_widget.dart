@@ -71,7 +71,7 @@ class MyinfoFormWidgetState extends State<MyinfoFormWidget>{
 
   void saveUserInfo() async {
     //유저 입력 데이터 획득..
-    if(nameController.text.trim().isEmpty && emailController.text.trim().isEmpty){
+    if(nameController.text.trim().isEmpty || emailController.text.trim().isEmpty){
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('이름 또는 이메일을 입력해 주세요.'))
       );
@@ -135,7 +135,7 @@ class MyinfoFormWidgetState extends State<MyinfoFormWidget>{
           ),
           SizedBox(height: 16,),
           TextField(
-            controller: nameController,
+            controller: emailController,
             decoration: InputDecoration(
               labelText: '이메일',
               border: OutlineInputBorder(),
