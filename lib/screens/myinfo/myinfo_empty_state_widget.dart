@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class MyinfoEmptyStateWidget extends StatelessWidget{
+class MyInfoEmptyStateWidget extends StatelessWidget{
   //상위 위젯의 함수.. 생성자 매개변수로 받아서.. 이벤트 발생시에 호출..
   final Function(bool) showForm;
-  MyinfoEmptyStateWidget(this.showForm);
+  MyInfoEmptyStateWidget(this.showForm);
 
   @override
   Widget build(BuildContext context) {

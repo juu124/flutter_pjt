@@ -43,7 +43,7 @@ class MyInfoScreenState extends State<MyinfoScreen>{
           ),
         ],
       ),
-      body: showForm ? MyinfoFormWidget() : MyinfoEmptyStateWidget(handleShowForm),
+      body: showForm ? MyinfoFormWidget() : MyInfoEmptyStateWidget(handleShowForm),
     );
   }
 }
