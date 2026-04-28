@@ -4,6 +4,9 @@ import 'package:flutter_pjt/screens/detail/news_item_widget.dart';
 import 'package:provider/provider.dart';
 
 class NewsListWidget extends StatelessWidget {
+  final String destinationName;
+  NewsListWidget(this.destinationName);
+
   @override
   Widget build(BuildContext context) {
     //앱의 상태로 화면 구성
@@ -25,7 +28,7 @@ class NewsListWidget extends StatelessWidget {
                 ),
                 SizedBox(height: 16),
                 ElevatedButton(
-                  onPressed: () => newsProvider.fetchNews(),
+                  onPressed: () => newsProvider.fetchNews(destinationName),
                   child: Text('다시시도'),
                 ),
               ],

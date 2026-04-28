@@ -35,8 +35,8 @@ class DetailScreenState extends State<DetailScreen> with SingleTickerProviderSta
       if(tabController.index == 1 && tabController.indexIsChanging) {
         final newsProvider = Provider.of<NewsProvider>(context, listen: false);
         // provider 에 데이터가 없는 순간에만..
-        if(newsProvider.articles.isEmpty) {
-          newsProvider.fetchNews();
+        if(newsProvider.destinationName != widget.destination.name) {
+          newsProvider.fetchNews(widget.destination.name);
         }
       }
     });
@@ -65,7 +65,7 @@ class DetailScreenState extends State<DetailScreen> with SingleTickerProviderSta
           controller: tabController,
         children: [
           ProductListWidget(widget.destination),
-          NewsListWidget(),
+          NewsListWidget(widget.destination.name),
         ],
       ),
     );

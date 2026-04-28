@@ -9,9 +9,9 @@ class NewsService {
   static const String _apiKey = 'c254da8e307f4165946de74e1bbb99a1';
 
   // 네트워킹을 위해서 호출되는 함수
-  Future<List<NewsArticle>> getNews() async {
+  Future<List<NewsArticle>> getNews(String? destinationName) async {
     try {
-      final response = await http.get(Uri.parse('$_baseUrl/everything?q=swiss&page=1&pageSize=10&apiKey=$_apiKey'));
+      final response = await http.get(Uri.parse('$_baseUrl/everything?q=$destinationName&page=1&pageSize=10&apiKey=$_apiKey'));
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         final articles = data['articles'] as List;

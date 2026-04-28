@@ -8,19 +8,22 @@ class NewsProvider with ChangeNotifier{
   List<NewsArticle> _articles = [];
   bool _isloading = false;
   String? _error;
+  String? _destinationName;
 
   List<NewsArticle> get articles => _articles;
   bool get isLoading => _isloading;
   String? get error => _error;
+  String? get destinationName => _destinationName;
 
-  Future<void> fetchNews() async {
+  Future<void> fetchNews(String destinationName) async {
     _isloading = true;
     _error = null;
+    _destinationName = destinationName;
     notifyListeners();
 
     try {
       // 네트워킹 시도
-      _articles = await _newsService.getNews();
+      _articles = await _newsService.getNews(_destinationName);
     } catch(e) {
       _error = e.toString();
     } finally {
