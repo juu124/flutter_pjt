@@ -22,7 +22,7 @@ class ProductItemWidget extends StatelessWidget {
         ),
       ),
       title: Text('${destination.name} 여행 상품 ${index + 1}'),
-      subtitle: Text('${index + 1} * 100 만원부터'),
+      subtitle: Text('${(index + 1)* 100} 만원부터'),
       trailing: Icon(Icons.arrow_forward_ios),
       onTap: () {
 

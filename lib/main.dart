@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pjt/models/trip_destination.dart';
+import 'package:flutter_pjt/providers/news_provider.dart';
 import 'package:flutter_pjt/providers/trip_provider.dart';
 import 'package:flutter_pjt/providers/user_provider.dart';
 import 'package:flutter_pjt/screens/about_screen.dart';
@@ -30,6 +31,7 @@ class TripApp extends StatelessWidget {
         // 등록하면서 loadUserData를 그냥 호출하면 안된다. 리턴 타입이 맞지 않는다.
         // 그래서 .. 이라고 적어야한다. ..으로 해서 UserProvider를 한번 생성하면서 loadUserData를 호출한다는 의도이다.
         ChangeNotifierProvider(create: (_) => UserProvider()..loadUserData()),
+        ChangeNotifierProvider(create: (_) => NewsProvider()),
       ],
       child: MaterialApp(
         theme: ThemeData(
