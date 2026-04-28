@@ -47,7 +47,7 @@ class NewsListWidget extends StatelessWidget {
           itemBuilder: (context, index) {
             final article = newsProvider.articles[index];
             return Card(
-              margin: EdgeInsets.only(bottom: 12),
+              margin: const EdgeInsets.only(bottom: 12),
               child: NewsItemWidget(article),
             );
           },
@@ -55,4 +55,8 @@ class NewsListWidget extends StatelessWidget {
       },
     );
   }
+
+
 }
+
+

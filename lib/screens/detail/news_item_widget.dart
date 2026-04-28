@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../models/news_article.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class NewsItemWidget extends StatelessWidget {
   NewsArticle article;
@@ -30,11 +31,7 @@ class NewsItemWidget extends StatelessWidget {
                 color: Colors.grey.shade300,
               ),
             ),
-      title: Text(
-        article.title,
-        maxLines: 2,
-        overflow: TextOverflow.ellipsis,
-      ),
+      title: Text(article.title, maxLines: 2, overflow: TextOverflow.ellipsis),
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -43,16 +40,30 @@ class NewsItemWidget extends StatelessWidget {
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
-          SizedBox(height: 4,),
+          SizedBox(height: 4),
           Text(
             article.source ?? '',
             style: TextStyle(fontSize: 12, color: Colors.blue),
-          )
+          ),
         ],
       ),
       onTap: () {
-
-      }
+        debugPrint('아이템 위젯 내부에서 클릭 감지: ${article.url}');
+        _launchUrl(article.url);
+      },
     );
+  }
+
+  // news 웹 사이트 페이지 열기
+  Future<void> _launchUrl(String urlString) async {
+    final Uri url = Uri.parse(urlString);
+
+    try {
+      if (!await launchUrl(url)) {
+        throw Exception('Could not launch $url');
+      }
+    } catch (e) {
+      print('URL 실행 에러: $e');
+    }
   }
 }
