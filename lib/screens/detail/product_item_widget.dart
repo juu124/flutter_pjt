@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../models/trip_destination.dart';
+import 'product_dialog_widget.dart';
 
 class ProductItemWidget extends StatelessWidget {
   TripDestination destination;
@@ -25,7 +26,10 @@ class ProductItemWidget extends StatelessWidget {
       subtitle: Text('${(index + 1)* 100} 만원부터'),
       trailing: Icon(Icons.arrow_forward_ios),
       onTap: () {
-
+        showDialog(
+          context: context,
+          builder: (context) => ProductDialogWidget(destination, index),
+        );
       },
     );
   }
