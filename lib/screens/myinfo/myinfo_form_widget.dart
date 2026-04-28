@@ -2,90 +2,112 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import '../../providers/user_provider.dart';
+import '../../models/user_info.dart';
 
-class MyinfoFormWidget extends StatefulWidget{
+class MyinfoFormWidget extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return MyinfoFormWidgetState();
   }
 }
 
-class MyinfoFormWidgetState extends State<MyinfoFormWidget>{
+class MyinfoFormWidgetState extends State<MyinfoFormWidget> {
   //Form 을 이용한다고 하더라도..
   //유저 입력값 획득에서는 controller 가 필요 없지만..
   //화면이 나올때.. 이전 입력값이 미리 화면에 출력되게 하려면 controller 있어야 한다..
   final nameController = TextEditingController();
   final emailController = TextEditingController();
-  String? profileImagePath;//프사 경로..
+  String? profileImagePath; //프사 경로..
   ImagePicker picker = ImagePicker();
 
-  void showImagePickerDialog(){
+  // 이 위젯이 출력되면서 이전 저장 데이터가 있다면 화면에 출력되어야 한다...
+  // 데이터는 provider 에서 획득하면 된다..
+  @override
+  void initState() {
+    super.initState();
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    if (userProvider.userInfo != null) {
+      // provider 데이터가 TextField 에 찍혀야한다.
+      // TextField 에 연결한 controller 에 값을 지정하면 된다.
+      nameController.text = userProvider.userInfo!.name ?? '';
+      emailController.text = userProvider.userInfo!.email ?? '';
+      profileImagePath = userProvider.userInfo!.profileImagePath;
+    }
+  }
+
+  void showImagePickerDialog() {
     //dialog 띄우기..
     showDialog(
-        context: context,
-        builder: (BuildContext context){
-          return AlertDialog(
-            title: Text('프로필 사진 선택'),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ListTile(
-                    leading: Icon(Icons.camera),
-                    title: Text('카메라로 촬영'),
-                    onTap: (){
-                      Navigator.pop(context);//dialog 닫기..
-                      pickImage(ImageSource.camera);
-                    }
-                ),
-                ListTile(
-                    leading: Icon(Icons.camera),
-                    title: Text('갤러리에서 선택'),
-                    onTap: (){
-                      Navigator.pop(context);//dialog 닫기..
-                      pickImage(ImageSource.gallery);
-                    }
-                ),
-              ],
-            ),
-          );
-        }
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('프로필 사진 선택'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: Icon(Icons.camera),
+                title: Text('카메라로 촬영'),
+                onTap: () {
+                  Navigator.pop(context); //dialog 닫기..
+                  pickImage(ImageSource.camera);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.camera),
+                title: Text('갤러리에서 선택'),
+                onTap: () {
+                  Navigator.pop(context); //dialog 닫기..
+                  pickImage(ImageSource.gallery);
+                },
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
   Future<void> pickImage(ImageSource source) async {
     try {
       final XFile? image = await picker.pickImage(source: source);
-      if(image != null){
+      if (image != null) {
         //화면 업데이트..
         setState(() {
           profileImagePath = image.path;
         });
       }
-    }catch (e){
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('이미지 선택 중 오류가 발생했습니다.'))
-      );
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('이미지 선택 중 오류가 발생했습니다.')));
       print(e);
     }
   }
 
   void saveUserInfo() async {
     //유저 입력 데이터 획득..
-    if(nameController.text.trim().isEmpty || emailController.text.trim().isEmpty){
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('이름 또는 이메일을 입력해 주세요.'))
-      );
+    if (nameController.text.trim().isEmpty || emailController.text.trim().isEmpty) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('이름 또는 이메일을 입력해 주세요.')));
       return;
     }
 
-    try{
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('사용자 정보가 저장되었습니다.'))
-      );
-    }catch (e){
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('저장 중 오류가 발생했습니다.'))
-      );
+    // 유저 입력 데이터 획득..
+    final userInfo = UserInfo(
+      name: nameController.text.trim().isEmpty? null : nameController.text.trim(),
+      email: emailController.text.trim().isEmpty? null : emailController.text.trim(),
+      profileImagePath: profileImagePath,
+    );
+
+    try {
+      await Provider.of<UserProvider>(context, listen: false).updateUserInfo(userInfo);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('사용자 정보가 저장되었습니다.')));
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('저장 중 오류가 발생했습니다.')));
     }
   }
 
@@ -110,7 +132,8 @@ class MyinfoFormWidgetState extends State<MyinfoFormWidget>{
                   //profileImagePath 이 값이 있는지에 따라...
                   backgroundImage: profileImagePath != null
                       ? FileImage(File(profileImagePath!))
-                      : AssetImage('assets/images/user_basic.jpg') as ImageProvider,
+                      : AssetImage('assets/images/user_basic.jpg')
+                            as ImageProvider,
                 ),
                 Positioned(
                   bottom: 0,
@@ -124,7 +147,7 @@ class MyinfoFormWidgetState extends State<MyinfoFormWidget>{
               ],
             ),
           ),
-          SizedBox(height: 32,),
+          SizedBox(height: 32),
           TextField(
             controller: nameController,
             decoration: InputDecoration(
@@ -133,7 +156,7 @@ class MyinfoFormWidgetState extends State<MyinfoFormWidget>{
               prefixIcon: Icon(Icons.person),
             ),
           ),
-          SizedBox(height: 16,),
+          SizedBox(height: 16),
           TextField(
             controller: emailController,
             decoration: InputDecoration(
@@ -143,7 +166,7 @@ class MyinfoFormWidgetState extends State<MyinfoFormWidget>{
             ),
             keyboardType: TextInputType.emailAddress,
           ),
-          SizedBox(height: 32,),
+          SizedBox(height: 32),
 
           SizedBox(
             width: double.infinity,

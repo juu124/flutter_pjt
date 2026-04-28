@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pjt/providers/trip_provider.dart';
+import 'package:flutter_pjt/providers/user_provider.dart';
 import 'package:flutter_pjt/screens/about_screen.dart';
 import 'package:flutter_pjt/screens/myinfo_screen.dart';
 import 'package:provider/provider.dart';
@@ -22,6 +23,11 @@ class TripApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => TripProvider(),),
+        // 초기 데이터 로딩하기 위해서 loadUserData() 함수를 호출해야한다.
+        // TripProvider는 내부에 이미 데이터가 있어서 초기 데이터 로딩이 필요없었다.
+        // 등록하면서 loadUserData를 그냥 호출하면 안된다. 리턴 타입이 맞지 않는다.
+        // 그래서 .. 이라고 적어야한다. ..으로 해서 UserProvider를 한번 생성하면서 loadUserData를 호출한다는 의도이다.
+        ChangeNotifierProvider(create: (_) => UserProvider()..loadUserData(),),
       ],
       child: MaterialApp(
         theme: ThemeData(
