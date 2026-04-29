@@ -18,23 +18,23 @@ class HomeGridItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(
-              child: Image.asset(
-                destination.imagePath,
+              child: Image(
+                image: NetworkImage(destination.imagePath),
                 fit: BoxFit.cover,
               ),
             ),
             Text(
-                destination.name,
-                style: TextStyle(
-                  color: Colors.black,
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                ),
+              destination.name,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             Text(
               destination.discount,
               style: TextStyle(fontSize: 12, color: Colors.black),
-            )
+            ),
           ],
         ),
       ),

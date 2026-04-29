@@ -48,7 +48,7 @@ class ProductDialogWidget extends StatelessWidget {
                   height: 100,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage(destination.imagePath),
+                      image: NetworkImage(destination.imagePath),
                       fit: BoxFit.cover,
                     ),
                   ),
