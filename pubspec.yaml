@@ -44,6 +44,7 @@ dependencies:
   shared_preferences: ^2.5.5
   json_annotation: ^4.11.0
   dio: ^4.0.0
+  loop_page_view: ^1.0.1
 
 dev_dependencies:
   flutter_test:
