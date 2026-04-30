@@ -25,17 +25,17 @@ class ProductListWidget extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16), // SizedBox는 리빌드 될 필요 x
           Text(
             destination.description,
             style: TextStyle(fontSize: 16, color: Colors.black),
           ),
-          SizedBox(height: 24),
+          const SizedBox(height: 24), // SizedBox는 리빌드 될 필요 x
           Text(
             '추천 상품',
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16), // SizedBox는 리빌드 될 필요 x
           // 목록 화면 구성하기
           ListView.builder(
             // 자신의 컨텐츠 사이즈 정도만 화면을 차기하게 한다.

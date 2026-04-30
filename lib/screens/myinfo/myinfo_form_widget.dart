@@ -147,7 +147,7 @@ class MyinfoFormWidgetState extends State<MyinfoFormWidget> {
               ],
             ),
           ),
-          SizedBox(height: 32),
+          const SizedBox(height: 32), // SizedBox는 리빌드 될 필요 x
           TextField(
             controller: nameController,
             decoration: InputDecoration(
@@ -156,7 +156,7 @@ class MyinfoFormWidgetState extends State<MyinfoFormWidget> {
               prefixIcon: Icon(Icons.person),
             ),
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16), // SizedBox는 리빌드 될 필요 x
           TextField(
             controller: emailController,
             decoration: InputDecoration(
@@ -166,7 +166,7 @@ class MyinfoFormWidgetState extends State<MyinfoFormWidget> {
             ),
             keyboardType: TextInputType.emailAddress,
           ),
-          SizedBox(height: 32),
+          const SizedBox(height: 32), // SizedBox는 리빌드 될 필요 x
 
           SizedBox(
             width: double.infinity,

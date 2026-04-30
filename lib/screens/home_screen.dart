@@ -173,7 +173,7 @@ class HomeScreenState extends State<HomeScreen> {
                 children: [
                   HomeMiddleWidget(),
 
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16), // SizedBox는 리빌드 될 필요 x
 
                   //상위 어딘가에 추가된 앱의 상태 데이터 획득..
                   Expanded(

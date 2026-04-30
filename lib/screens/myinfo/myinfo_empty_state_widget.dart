@@ -16,7 +16,7 @@ class MyInfoEmptyStateWidget extends StatelessWidget{
             size: 100,
             color: Colors.grey,
           ),
-          SizedBox(height: 24,),
+          const SizedBox(height: 24,), // SizedBox는 리빌드 될 필요 x
           Text(
             '사용자 정보가 없습니다.',
             style: TextStyle(
@@ -24,7 +24,7 @@ class MyInfoEmptyStateWidget extends StatelessWidget{
               color: Colors.grey,
             ),
           ),
-          SizedBox(height: 16,),
+          const SizedBox(height: 16,),// SizedBox는 리빌드 될 필요 x
           ElevatedButton(
             onPressed: (){
               //상위 함수 호출해서.. 상위에 의해 화면이 바뀌게..

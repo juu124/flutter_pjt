@@ -82,7 +82,7 @@ class ProductDialogWidget extends StatelessWidget {
               ],
             ),
 
-            SizedBox(height: 16),
+            const SizedBox(height: 16), // SizedBox는 리빌드 될 필요 x
 
             // 상세 일정
             // ── 일차 탭 버튼 ──
@@ -99,7 +99,7 @@ class ProductDialogWidget extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10), // SizedBox는 리빌드 될 필요 x
 
                     // ── 일차별 상세 일정 ──
                     Expanded(
@@ -171,7 +171,7 @@ class ProductDialogWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildDayChip(day),
-          SizedBox(height: 6),
+          const SizedBox(height: 6), // SizedBox는 리빌드 될 필요 x
           ...items.map((item) => _buildScheduleItem(item)),
         ],
       ),
@@ -202,7 +202,7 @@ class ProductDialogWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(icon, size: 18, color: Colors.blue),
-          SizedBox(width: 12),
+          const SizedBox(width: 12), // SizedBox는 리빌드 될 필요 x
           Expanded(
             child: RichText(
               text: TextSpan(

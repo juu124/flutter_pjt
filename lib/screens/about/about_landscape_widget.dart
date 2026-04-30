@@ -26,7 +26,7 @@ class AboutLandscapeWidget extends StatelessWidget{
                     color: Colors.blue,
                   ),
                 ),
-                SizedBox(height: 16,),
+                const SizedBox(height: 16,), // SizedBox는 리빌드 될 필요 x
                 Text(
                   'Trip App',
                   style: TextStyle(
@@ -35,7 +35,7 @@ class AboutLandscapeWidget extends StatelessWidget{
                     color: Colors.blue,
                   ),
                 ),
-                SizedBox(height: 8,),
+                const SizedBox(height: 8,), // SizedBox는 리빌드 될 필요 x
                 Text(
                   'Version 1.0.0',
                   style: TextStyle(
@@ -58,19 +58,19 @@ class AboutLandscapeWidget extends StatelessWidget{
                     color: Colors.grey,
                   ),
                 ),
-                SizedBox(height: 24,),
+                const SizedBox(height: 24,), // SizedBox는 리빌드 될 필요 x
                 buildFeatureCard(
                   icon: Icons.flight,
                   title: '항공편 예약',
                   description: '전세계 항공편을 쉽게 검색하고 예약하세요.',
                 ),
-                SizedBox(height: 12,),
+                const SizedBox(height: 12,), // SizedBox는 리빌드 될 필요 x
                 buildFeatureCard(
                   icon: Icons.hotel,
                   title: '호텔 예약',
                   description: '최고의 호텔을 찾아 편안한 여행 즐기세요.',
                 ),
-                SizedBox(height: 12,),
+                const SizedBox(height: 12,),  // SizedBox는 리빌드 될 필요 x
                 buildFeatureCard(
                   icon: Icons.map,
                   title: '여행 가이드',

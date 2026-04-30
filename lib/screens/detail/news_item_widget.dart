@@ -40,7 +40,7 @@ class NewsItemWidget extends StatelessWidget {
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
-          SizedBox(height: 4),
+          const SizedBox(height: 4), // SizedBox는 리빌드 될 필요 x
           Text(
             article.source ?? '',
             style: TextStyle(fontSize: 12, color: Colors.blue),

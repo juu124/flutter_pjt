@@ -53,6 +53,7 @@ class TripApp extends StatelessWidget {
               builder: (context) => DetailScreen(destination),
             );
           }
+          return null;
         },
       ),
     );
