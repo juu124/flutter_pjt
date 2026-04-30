@@ -21,12 +21,12 @@ class NewsListWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(Icons.error, size: 64, color: Colors.red),
-                SizedBox(height: 16),
+                const SizedBox(height: 16), // SizedBox는 리빌드 될 필요 x
                 Text(
                   '뉴스를 불러올 수 없습니다. \n ${newsProvider.error}',
                   style: TextStyle(color: Colors.grey),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16), // SizedBox는 리빌드 될 필요 x
                 ElevatedButton(
                   onPressed: () => newsProvider.fetchNews(destinationName),
                   child: Text('다시시도'),
