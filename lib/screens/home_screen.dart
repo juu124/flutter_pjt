@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import '../models/trip_destination.dart';
 import '../services/shared_preferences.dart';
 import '../services/trip_service.dart';
+import './home/home_menu_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -70,8 +71,11 @@ class HomeScreenState extends State<HomeScreen> {
                   if (textEditingValue.text.isEmpty) {
                     return const Iterable<String>.empty();
                   }
-                  return _searchHistory.where((option) =>
-                      option.toLowerCase().contains(textEditingValue.text.toLowerCase()));
+                  return _searchHistory.where(
+                    (option) => option.toLowerCase().contains(
+                      textEditingValue.text.toLowerCase(),
+                    ),
+                  );
                 },
                 optionsViewBuilder: (context, onSelected, options) {
                   return Align(
@@ -79,17 +83,26 @@ class HomeScreenState extends State<HomeScreen> {
                     child: Material(
                       color: Colors.white,
                       child: SizedBox(
-                        width: MediaQuery.of(context).size.width, // 화면 너비에 맞게 조절
+                        width: MediaQuery.of(
+                          context,
+                        ).size.width, // 화면 너비에 맞게 조절
                         child: ListView.builder(
                           shrinkWrap: true,
                           itemCount: options.length,
                           itemBuilder: (BuildContext context, int index) {
                             final String option = options.elementAt(index);
                             return ListTile(
-                              title: Text(option, style: TextStyle(color: Colors.grey,),),
-                              leading: Icon(Icons.history, color: Colors.grey,),
+                              title: Text(
+                                option,
+                                style: TextStyle(color: Colors.grey),
+                              ),
+                              leading: Icon(Icons.history, color: Colors.grey),
                               trailing: IconButton(
-                                icon: Icon(Icons.close, size: 18, color: Colors.grey,),
+                                icon: Icon(
+                                  Icons.close,
+                                  size: 18,
+                                  color: Colors.grey,
+                                ),
                                 onPressed: () async {
                                   await _deleteSearchTerm(option);
                                 },
@@ -128,7 +141,9 @@ class HomeScreenState extends State<HomeScreen> {
                         },
                         controller: fieldController,
                         onSubmitted: (value) async {
-                          bool isSaved = await _saveSearchTerm(value);  // 검색어 공백 검색 분기처리를 위해..
+                          bool isSaved = await _saveSearchTerm(
+                            value,
+                          ); // 검색어 공백 검색 분기처리를 위해..
                           // 검색 결과 스낵바
                           if (isSaved) {
                             ScaffoldMessenger.of(context).showSnackBar(
@@ -159,7 +174,7 @@ class HomeScreenState extends State<HomeScreen> {
             icon: Icon(_isSearching ? Icons.clear_outlined : Icons.search),
           ),
           if (!_isSearching)
-            IconButton(onPressed: () {}, icon: const Icon(Icons.more_vert)),
+            HomeMenuWidget()
         ],
       ),
       drawer: HomeDrawerWidget(), // 드로어 추가
@@ -174,7 +189,6 @@ class HomeScreenState extends State<HomeScreen> {
                   HomeMiddleWidget(),
 
                   const SizedBox(height: 16), // SizedBox는 리빌드 될 필요 x
-
                   //상위 어딘가에 추가된 앱의 상태 데이터 획득..
                   Expanded(
                     child: Consumer<TripProvider>(
