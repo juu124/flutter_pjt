@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../providers/theme_provider.dart';
 import '../services/shared_preferences.dart';
 
 class SettingScreen extends StatefulWidget {
@@ -37,7 +39,11 @@ class SettingScreenState extends State<SettingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Settings')),
+      backgroundColor: Theme.of(context).colorScheme.surface, // 추가
+      appBar: AppBar(
+        title: const Text('Settings'),
+        backgroundColor: Theme.of(context).colorScheme.surface,
+      ), // 추가
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -83,13 +89,14 @@ class SettingScreenState extends State<SettingScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text('다크 모드 설정'),
-                    Switch(
-                      value: _isDarkMode,
-                      onChanged: (value) async {
-                        await PreferenceService.setDarkModeSetting(value);
-                        setState(() {
-                          _isDarkMode = value;
-                        });
+                    Consumer<ThemeProvider>(
+                      builder: (context, themeProvider, child) {
+                        return Switch(
+                          value: themeProvider.themeMode == ThemeMode.dark,
+                          onChanged: (value) {
+                            themeProvider.toggleTheme(value);
+                          },
+                        );
                       },
                     ),
                   ],

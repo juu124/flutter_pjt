@@ -26,14 +26,14 @@ class HomeGridItem extends StatelessWidget {
             Text(
               destination.name,
               style: TextStyle(
-                color: Colors.black,
+                color: Theme.of(context).colorScheme.onSurface,
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
               ),
             ),
             Text(
               destination.discount,
-              style: TextStyle(fontSize: 12, color: Colors.black),
+              style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.onSurface),
             ),
           ],
         ),

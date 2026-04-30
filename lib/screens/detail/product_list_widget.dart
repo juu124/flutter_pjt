@@ -28,7 +28,7 @@ class ProductListWidget extends StatelessWidget {
           const SizedBox(height: 16), // SizedBox는 리빌드 될 필요 x
           Text(
             destination.description,
-            style: TextStyle(fontSize: 16, color: Colors.black),
+            style: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.onSurface),
           ),
           const SizedBox(height: 24), // SizedBox는 리빌드 될 필요 x
           Text(

@@ -10,6 +10,8 @@ import 'package:flutter_pjt/screens/setting_screen.dart';
 import 'package:provider/provider.dart';
 import './routes/app_routes.dart';
 import './screens/home_screen.dart';
+import 'providers/theme_provider.dart';
+
 
 void main() {
   //constant constructor, const 예약어로 생성, 필수는 아니지만 위젯에서 권장사항..
@@ -33,31 +35,41 @@ class TripApp extends StatelessWidget {
         // 그래서 .. 이라고 적어야한다. ..으로 해서 UserProvider를 한번 생성하면서 loadUserData를 호출한다는 의도이다.
         ChangeNotifierProvider(create: (_) => UserProvider()..loadUserData()),
         ChangeNotifierProvider(create: (_) => NewsProvider()),
+        ChangeNotifierProvider(create: (_) => ThemeProvider()..loadThemeMode()),
       ],
-      child: MaterialApp(
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        ),
-        debugShowCheckedModeBanner: false,
-        initialRoute: AppRoutes.home,
-        routes: {
-          AppRoutes.home: (context) => HomeScreen(),
-          AppRoutes.about: (context) => AboutScreen(),
-          AppRoutes.myInfo: (context) => MyinfoScreen(),
-          AppRoutes.settings: (context) => SettingScreen(),
-        },
-        onGenerateRoute: (settings) {
-          // 어디선가 routing 명령 내려졌을때..
-          if (settings.name == AppRoutes.detail) {
-            // 요청시 추가된 전달 데이터 획득
-            final destination = settings.arguments as TripDestination;
-            return MaterialPageRoute(
-              builder: (context) => DetailScreen(destination),
-            );
-          }
-          return null;
-        },
-      ),
+      child: Consumer<ThemeProvider>(
+          builder: (context, themeProvider, _) => MaterialApp(
+            theme: ThemeData.light().copyWith(
+              colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+            ),
+            darkTheme: ThemeData.dark().copyWith(
+              colorScheme: ColorScheme.fromSeed(
+                seedColor: Colors.blue,
+                brightness: Brightness.dark, // 다크모드용
+              ),
+            ),
+            themeMode: themeProvider.themeMode,
+            debugShowCheckedModeBanner: false,
+            initialRoute: AppRoutes.home,
+            routes: {
+              AppRoutes.home: (context) => HomeScreen(),
+              AppRoutes.about: (context) => AboutScreen(),
+              AppRoutes.myInfo: (context) => MyinfoScreen(),
+              AppRoutes.settings: (context) => SettingScreen(),
+            },
+            onGenerateRoute: (settings) {
+              // 어디선가 routing 명령 내려졌을때..
+              if (settings.name == AppRoutes.detail) {
+                // 요청시 추가된 전달 데이터 획득
+                final destination = settings.arguments as TripDestination;
+                return MaterialPageRoute(
+                  builder: (context) => DetailScreen(destination),
+                );
+              }
+              return null;
+            },
+          )
+      )
     );
   }
 }

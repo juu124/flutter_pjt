@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../data/menu_data.dart';
 import '../../models/menu_item.dart';
+import '../../routes/app_routes.dart';
 
 class HomeMenuWidget extends StatelessWidget {
   @override
@@ -23,6 +24,10 @@ class HomeMenuWidget extends StatelessWidget {
           ),
         ),
         PopupMenuItem<MenuItem>(
+          onTap: () {
+            // 앱 공유 다이얼로그 표시
+            // 카카오톡, 메세지로 text 전달 하는 기능
+          },
           value: MenuData.itemShare,
           child: Row(
             children: [
