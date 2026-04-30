@@ -10,6 +10,9 @@ class HomeMenuWidget extends StatelessWidget {
       icon: Icon(Icons.more_vert),
       itemBuilder: (context) => [
         PopupMenuItem<MenuItem>(
+          onTap: () {
+            Navigator.pushNamed(context, AppRoutes.settings);
+          },
           value: MenuData.itemSettings,
           child: Row(
             children: [

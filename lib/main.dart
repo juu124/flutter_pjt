@@ -6,6 +6,7 @@ import 'package:flutter_pjt/providers/user_provider.dart';
 import 'package:flutter_pjt/screens/about_screen.dart';
 import 'package:flutter_pjt/screens/detail_screen.dart';
 import 'package:flutter_pjt/screens/myinfo_screen.dart';
+import 'package:flutter_pjt/screens/setting_screen.dart';
 import 'package:provider/provider.dart';
 import './routes/app_routes.dart';
 import './screens/home_screen.dart';
@@ -43,6 +44,7 @@ class TripApp extends StatelessWidget {
           AppRoutes.home: (context) => HomeScreen(),
           AppRoutes.about: (context) => AboutScreen(),
           AppRoutes.myInfo: (context) => MyinfoScreen(),
+          AppRoutes.settings: (context) => SettingScreen(),
         },
         onGenerateRoute: (settings) {
           // 어디선가 routing 명령 내려졌을때..

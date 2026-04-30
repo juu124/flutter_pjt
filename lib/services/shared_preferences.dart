@@ -29,4 +29,28 @@ class PreferenceService {
     final instance = await _instance;
     return instance.getStringList('search_history') ?? [];
   }
+
+  // 알림 상태 값 저장
+  static Future<void> setNotificationSetting(bool value) async {
+    final instance = await _instance;
+    await instance.setBool('notification_switch', value);
+  }
+
+  // 알림 상태 값 불러오기
+  static Future<bool> getNotificationSetting() async {
+    final instance = await _instance;
+    return instance.getBool('notification_switch') ?? false;
+  }
+
+  // 다크모드 상태 값 저장
+  static Future<void> setDarkModeSetting(bool value) async {
+    final instance = await _instance;
+    await instance.setBool('dark_mode_switch', value);
+  }
+
+  // 다크모드 상태 값 불러오기
+  static Future<bool> getDarkModeSetting() async {
+    final instance = await _instance;
+    return instance.getBool('dark_mode_switch') ?? false;
+  }
 }
