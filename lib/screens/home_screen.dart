@@ -6,9 +6,7 @@ import 'package:flutter_pjt/screens/home/home_middle_widget.dart';
 import 'package:flutter_pjt/screens/home/home_top_widget.dart';
 import 'package:provider/provider.dart';
 
-import '../models/trip_destination.dart';
 import '../services/shared_preferences.dart';
-import '../services/trip_service.dart';
 import './home/home_menu_widget.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -22,8 +20,6 @@ class HomeScreenState extends State<HomeScreen> {
   bool _isSearching = false;
   final controller = TextEditingController();
   List<String> _searchHistory = []; // 전체 검색 기록을 담을 상태 변수
-  final service = TripService();
-  List<TripDestination> destinations = [];
 
   // sharedPreference인스턴스 생성 (상태 초기화 작업할때)
   Future<void> _initHistory() async {
@@ -69,7 +65,7 @@ class HomeScreenState extends State<HomeScreen> {
             ? Autocomplete(
                 optionsBuilder: (textEditingValue) async {
                   if (textEditingValue.text.isEmpty) {
-                    return const Iterable<String>.empty();
+                    return _searchHistory; // 전체 기록 표시
                   }
                   return _searchHistory.where(
                     (option) => option.toLowerCase().contains(
@@ -173,8 +169,7 @@ class HomeScreenState extends State<HomeScreen> {
             },
             icon: Icon(_isSearching ? Icons.clear_outlined : Icons.search),
           ),
-          if (!_isSearching)
-            HomeMenuWidget()
+          if (!_isSearching) HomeMenuWidget(),
         ],
       ),
       drawer: HomeDrawerWidget(), // 드로어 추가
@@ -204,5 +199,11 @@ class HomeScreenState extends State<HomeScreen> {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 }
