@@ -3,6 +3,7 @@ import 'package:flutter_pjt/screens/detail/news_list_widget.dart';
 import 'package:provider/provider.dart';
 import '../models/trip_destination.dart';
 import '../providers/news_provider.dart';
+import '../providers/trip_provider.dart';
 import './detail/product_list_widget.dart';
 
 class DetailScreen extends StatefulWidget{
@@ -23,6 +24,13 @@ class DetailScreenState extends State<DetailScreen> with SingleTickerProviderSta
   void initState() {
     super.initState();
     tabController = TabController(length: 2, vsync: this);  //  vsync: this 애니메이션 적용되어야하는 화면이 현재 화면이라는 뜻
+
+    // 여행 상품 데이터 로드
+    // microtask : initState가 완료되고 트리가 그려지면 해당 부분을 실행하겠다는 것
+    Future.microtask(() {
+      if (!mounted) return; // 위젯을 나가버리면 context 오류가 발생하므로 트리 살아있는지 확인 코드
+      context.read<TripProvider>().fetchProducts(widget.destination.id);
+    });
 
     // news 데이터가 앱의 처음부터 피룡한 부분이 아니기 때문에,
     // 실제 그 데이터가 처음 필요한 순간에 networking을 이용해서 데이터를 구축하고자 한다.

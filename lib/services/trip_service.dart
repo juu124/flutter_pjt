@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_pjt/models/trip_destination.dart';
+import 'package:flutter_pjt/models/trip_product.dart';
 
 class TripService {
   late final Dio _dio;
@@ -26,7 +27,7 @@ class TripService {
       final response = await _dio.get('/destinations/$id');
 
       if (response.statusCode == 200) {
-        return TripDestination.fromJson(response.data as Map<String, dynamic>);
+        return TripDestination.fromJson(response.data);
       }
       return null;
     } catch (e) {
@@ -34,5 +35,11 @@ class TripService {
       print('Error fetching destination: $e');
       return null;
     }
+  }
+
+  Future<List<TripProduct>> getProducts(int id) async {
+    final response = await _dio.get('/destinations/$id/products');
+    final List<dynamic> data = response.data;
+    return data.map((e) => TripProduct.fromJson(e as Map<String, dynamic>)).toList();
   }
 }

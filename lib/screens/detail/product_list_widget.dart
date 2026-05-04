@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'product_item_widget.dart';
+import 'package:provider/provider.dart';
+
 import '../../models/trip_destination.dart';
+import '../../providers/trip_provider.dart';
+import 'product_item_widget.dart';
 
 class ProductListWidget extends StatelessWidget {
   TripDestination destination;
@@ -28,7 +31,10 @@ class ProductListWidget extends StatelessWidget {
           const SizedBox(height: 16), // SizedBox는 리빌드 될 필요 x
           Text(
             destination.description,
-            style: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.onSurface),
+            style: TextStyle(
+              fontSize: 16,
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
           ),
           const SizedBox(height: 24), // SizedBox는 리빌드 될 필요 x
           Text(
@@ -36,21 +42,37 @@ class ProductListWidget extends StatelessWidget {
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 16), // SizedBox는 리빌드 될 필요 x
-          // 목록 화면 구성하기
-          ListView.builder(
-            // 자신의 컨텐츠 사이즈 정도만 화면을 차기하게 한다.
-            shrinkWrap: true,
-            // NeverScrollableScrollPhysics : ListView는 자체 스크롤을 지원한다. 하지만, 나는 화면 전체를 스크롤되는걸로 하고 싶어.
-            // 화면 전체 스크롤에 따라라
-            physics: NeverScrollableScrollPhysics(),
-            itemCount: 5,
-            itemBuilder: (context, index) {
-              return Card(
-                margin: EdgeInsets.only(bottom: 12),
-                child: ProductItemWidget( index, destination),
+
+          Consumer<TripProvider>(
+            builder: (context, tripProvider, _) {
+              final products = tripProvider.products;
+
+              // 로딩 중
+              if (products.isEmpty) {
+                return const Center(child: CircularProgressIndicator());
+              }
+
+              // 목록 화면 구성하기
+              return ListView.builder(
+                // 자신의 컨텐츠 사이즈 정도만 화면을 차기하게 한다.
+                shrinkWrap: true,
+                // NeverScrollableScrollPhysics : ListView는 자체 스크롤을 지원한다. 하지만, 나는 화면 전체를 스크롤되는걸로 하고 싶어.
+                // 화면 전체 스크롤에 따라라
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: 5,
+                itemBuilder: (context, index) {
+                  return Card(
+                    margin: EdgeInsets.only(bottom: 12),
+                    child: ProductItemWidget(
+                      index,
+                      destination,
+                      products[index],
+                    ),
+                  );
+                },
               );
-            }
-          )
+            },
+          ),
         ],
       ),
     );

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import '../models/trip_destination.dart';
+import '../models/trip_product.dart';
 import '../services/trip_service.dart';
 
 class TripProvider with ChangeNotifier{
   final List<TripDestination> _destinations = [];
+  final List<TripProduct> _products = [];
 
   TripProvider() {
     searchUser();
@@ -20,6 +22,7 @@ class TripProvider with ChangeNotifier{
   }
 
   List<TripDestination> get destination => _destinations;
+  List<TripProduct> get products => _products;
 
   //DetailScreen 에서 자신의 여행지에 대한 데이터 획득을 위해서.
   TripDestination? getDestinationById(int id){
@@ -28,5 +31,12 @@ class TripProvider with ChangeNotifier{
     }catch(e){
       return null;
     }
+  }
+
+  Future<void> fetchProducts(int destinationId) async {
+    final results = await TripService().getProducts(destinationId);
+    _products.clear();
+    _products.addAll(results);
+    notifyListeners();
   }
 }

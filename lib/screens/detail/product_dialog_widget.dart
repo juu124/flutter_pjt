@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
 import '../../models/trip_destination.dart';
+import '../../models/trip_product.dart';
 
 class ProductDialogWidget extends StatelessWidget {
   final TripDestination destination;
-  final int index;
+  final TripProduct product;
 
-  ProductDialogWidget(this.destination, this.index);
+  ProductDialogWidget(this.destination, this.product);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class ProductDialogWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '${destination.name} 여행 상품 ${index + 1}',
+                    '${destination.name} 여행 상품 ${product.id}',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   TextButton(
@@ -62,18 +63,18 @@ class ProductDialogWidget extends StatelessWidget {
                         _buildSummaryItem(
                           Icons.calendar_month,
                           '일정',
-                          '1월 1일 ~ 1월 15일 (14박 15일)',
+                          product.duration,
                         ),
-                        _buildSummaryItem(Icons.attach_money, '가격', '350만원'),
+                        _buildSummaryItem(Icons.attach_money, '가격', product.price),
                         _buildSummaryItem(
                           Icons.airplanemode_active,
                           '항공',
-                          '대한항공',
+                          product.airline,
                         ),
                         _buildSummaryItem(
                           Icons.hotel,
                           '호텔',
-                          '전 일정 4성급 이상 호텔',
+                          product.hotelGrade,
                         ),
                       ],
                     ),
@@ -107,30 +108,7 @@ class ProductDialogWidget extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            _buildDaySchedule(
-                              day: '1일차',
-                              items: [
-                                '인천공항 출발 (대한항공 KE093, 13:20)',
-                                '취리히 공항 도착 후 호텔 체크인',
-                                '취리히 구시가지 자유 관광',
-                              ],
-                            ),
-                            _buildDaySchedule(
-                              day: '2일차',
-                              items: [
-                                '루체른 이동 (약 1시간)',
-                                '카펠교 및 빈사의 사자상 관람',
-                                '리기산 등반 및 파노라마 전망 감상',
-                              ],
-                            ),
-                            _buildDaySchedule(
-                              day: '3일차',
-                              items: [
-                                '인터라켄 이동 (약 2시간)',
-                                '융프라우요흐 등반 (유럽의 지붕, 3,454m)',
-                                '알프스 설원 자유 시간',
-                              ],
-                            ),
+                            ...product.schedule.map((item) => _buildDaySchedule(item: item)),
                           ],
                         ),
                       ),
@@ -164,15 +142,15 @@ class ProductDialogWidget extends StatelessWidget {
   }
 
   // 일차별 상세 일정 블록
-  Widget _buildDaySchedule({required String day, required List<String> items}) {
+  Widget _buildDaySchedule({required DaySchedule item}) {
     return Padding(
       padding: EdgeInsets.only(bottom: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildDayChip(day),
-          const SizedBox(height: 6), // SizedBox는 리빌드 될 필요 x
-          ...items.map((item) => _buildScheduleItem(item)),
+          _buildDayChip('${item.day}일차'),   // day: 1 → '1일차'
+          const SizedBox(height: 6),
+          ...item.activities.map((activity) => _buildScheduleItem(activity)), // activities 배열 순회
         ],
       ),
     );

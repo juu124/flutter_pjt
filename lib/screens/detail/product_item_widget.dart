@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
 import '../../models/trip_destination.dart';
+import '../../models/trip_product.dart';
 import 'product_dialog_widget.dart';
 
 class ProductItemWidget extends StatelessWidget {
   TripDestination destination;
+  TripProduct product;
   int index; // 리스트에 순번 매기려고 사용
-  ProductItemWidget(this.index, this.destination);
+  ProductItemWidget(this.index, this.destination, this.product);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,7 @@ class ProductItemWidget extends StatelessWidget {
       onTap: () {
         showDialog(
           context: context,
-          builder: (context) => ProductDialogWidget(destination, index),
+          builder: (context) => ProductDialogWidget(destination, product,),
         );
       },
     );
